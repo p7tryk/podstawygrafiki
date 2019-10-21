@@ -115,7 +115,6 @@ void draw()
     drawCircle(10);
   popMatrix();
   popMatrix();
-  pushMatrix();
   //ksiezyc2
   rotate(time*2);
   translate(30.f, 0.f);
@@ -124,14 +123,7 @@ void draw()
     fill(240,240,240);
     drawCircle(10);
   popMatrix();
-  //ksiezyc3
-  rotate(time*2);
-  translate(30.f, 0.f);
-  pushMatrix();
-    scale(3.f, 3.f);
-    fill(240,240,240);
-    drawCircle(10);
-  popMatrix();
+  
   
   popMatrix();
   //endjowisz
@@ -139,7 +131,7 @@ void draw()
   
   //saturn
   pushMatrix(); //system
-  rotate(time*0.4f);
+  rotate(time*-0.4f);
   translate(430.f, 0.f);
   //pierscienie
   pushMatrix();
@@ -183,7 +175,7 @@ void draw()
   //uran
   pushMatrix(); //system
   rotate(time*0.3f);
-  translate(480.f, 0.f);
+  translate(490.f, 0.f);
   pushMatrix();
     scale(15.f, 15.f);
     fill(0,0,255);
