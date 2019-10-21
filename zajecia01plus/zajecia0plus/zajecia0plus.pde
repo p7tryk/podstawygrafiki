@@ -59,14 +59,15 @@ endShape();
 
 void move()
 {
-  if(first<400)
-    first++;
-  else
+  if(first>400&&second>400)
+  {
     first--;
-    
-  if(second>0)
-    second--;
-  else
     second++;
+  }
+  else if(first<400)
+    first++;
+  else(second>400)
+    second--;
+
   
 }
