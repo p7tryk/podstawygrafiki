@@ -60,3 +60,4 @@ libraries/
 templates/
 modes/
 tools/
+*.zip
