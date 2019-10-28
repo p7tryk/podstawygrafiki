@@ -1,7 +1,17 @@
-void setup() {
+PShape s;
+
+void setup() 
+{
   size(1600, 900, P3D);
   noStroke();
+  s = loadShape("capsule.obj");
 }
+void drawCapsule()
+{
+  shape(s,0,0);
+  rotateY(time*PI);
+}
+
 void drawSphere(int steps)
 {
    sphereDetail(steps);
@@ -27,7 +37,7 @@ void draw()
 {
   rotateY(PI/8);
   ambientLight(10,10,10);
-  pointLight(255,255,255,width *.5f, height *.5f,50);
+  pointLight(255,255,255,width *.5f, height *.5f,0);
   lightSpecular(200,200,0);
   background(0);
   translate(width *.5f, height *.5f);
@@ -43,12 +53,12 @@ void draw()
   popMatrix();
   popMatrix();
   emissive(0,0,0);
-  
+    
   //merkury
   pushMatrix();
-  rotateX(PI*10);
-  rotate(time*3);
-  translate(50.f, 0.f, time*PI);
+  rotateY(PI*time*0.7);
+  rotateX(time*PI*0.5);
+  translate(70.f, 0.f, time*PI);
   pushMatrix();
     scale(7.f,7.f,7.f);
     fill(200,200,200);
@@ -62,9 +72,11 @@ void draw()
   rotate(time*2);
   translate(100.f, 0.f);
   pushMatrix();
+    specular(220,10,200);
+    shininess(2.0);
     scale(8.f, 8.f,8.f);
     fill(255,222,179);
-    drawSphere(10);
+    drawCapsule();
   popMatrix();
   popMatrix();
 
@@ -147,6 +159,7 @@ void draw()
     drawCircle(10);
   popMatrix();
   pushMatrix();
+  rotateY(PI*time);
     scale(30.f, 30.f);
     fill(0,0,0);
     drawCircle(10);
