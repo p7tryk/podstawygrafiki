@@ -43,6 +43,7 @@ void draw()
   translate(width *.5f, height *.5f);
   pushMatrix();
   rotate(time);
+  rotateX(time*2);
   //slonce
   translate(0.f, 0.f);
   pushMatrix();
@@ -72,7 +73,7 @@ void draw()
   translate(100.f, 0.f);
   pushMatrix();
     specular(220,10,200);
-    shininess(2.0);
+    shininess(30.0);
     scale(8.f, 8.f,8.f);
     fill(255,222,179);
     drawCapsule();
@@ -82,8 +83,8 @@ void draw()
   
   //ziemia
   pushMatrix();
-  rotate(time);
-  translate(200.f, 0.f);
+  rotateX(time);
+  translate(20.f, 200.f);
   pushMatrix();
     scale(10.f, 10.f,10.f);
     fill(0,255,0);
@@ -104,6 +105,7 @@ void draw()
   //mars
   pushMatrix();
   rotate(time*0.7f);
+  pointLight(255,40,40,0,0,0);
   translate(300.f, 0.f);
   pushMatrix();
     scale(6.f, 6.f);
@@ -124,7 +126,7 @@ void draw()
   popMatrix();
   pushMatrix();
   //ksiezyc
-  rotate(time*3);
+  rotateX(-time*3);
   translate(25.f, 0.f);
   pushMatrix();
     scale(3.f, 3.f, 3.f);
@@ -149,7 +151,7 @@ void draw()
   //saturn
   pushMatrix(); //system
   rotate(time*-0.4f);
-  translate(430.f, 0.f);
+  translate(430.f, 430.f);
   //pierscienie
   pushMatrix();
     rotateY(PI*time);
