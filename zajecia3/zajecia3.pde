@@ -57,8 +57,7 @@ void draw()
   //merkury
   pushMatrix();
   rotateY(PI*time*0.7);
-  rotateX(time*PI*0.5);
-  translate(70.f, 0.f, time*PI);
+  translate(0.f, 0.f, 70.);
   pushMatrix();
     scale(7.f,7.f,7.f);
     fill(200,200,200);
@@ -172,12 +171,13 @@ void draw()
   //endpierscienie
   pushMatrix();
   //saturnksiezyc
-  rotate(time*3);
-  translate(25.f, 0.f);
+  rotateY(time*3);
+  translate(25.f, 0.f, 50.f);
   pushMatrix();
     scale(3.f, 3.f);
     fill(240,240,240);
     drawSphere(10);
+    spotLight(255,255,255,0,0,0,0,0,-1,40,5);
   popMatrix();
   popMatrix();
   //saturnksiezyc2
@@ -197,18 +197,21 @@ void draw()
   rotate(time*0.3f);
   translate(490.f, 0.f,300.f);
   pushMatrix();
+    lightSpecular(255,255,255);
+    shininess(20);
     scale(15.f, 15.f);
     fill(0,0,255);
     drawSphere(10);
   popMatrix();
   pushMatrix();
   //uran ksiezyc
-  rotate(time*3);
-  translate(25.f, 0.f);
+  rotateY(time*3);
+  translate(10.f, 0.f, 25.f);
   pushMatrix();
     scale(3.f, 3.f);
     fill(240,240,240);
     drawSphere(10);
+    spotLight(255,0,0,0,0,0,0,0,-1,40,5);
   popMatrix();
   popMatrix();
   //ksiezyc2
