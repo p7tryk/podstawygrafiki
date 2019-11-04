@@ -106,9 +106,9 @@ void draw()
   pushMatrix();
   rotate(time*0.7f);
   translate(300.f, 0.f);
-  float lx = modelX(300,0,0);
-  float ly = modelY(300,0,0);
-  float lz = modelZ(300,0,0);
+  float lx = modelX(0,0,0);
+  float ly = modelY(0,0,0);
+  float lz = modelZ(0,0,0);
   pushMatrix();
     scale(6.f, 6.f);
     fill(255,0,0);
@@ -182,7 +182,6 @@ void draw()
     scale(3.f, 3.f);
     fill(240,240,240);
     drawSphere(10);
-    spotLight(255,255,255,0,0,0,0,0,-1,40,5);
   popMatrix();
   popMatrix();
   //saturnksiezyc2
@@ -199,11 +198,11 @@ void draw()
   
   //uran
   pushMatrix(); //system
+  lightSpecular(200,200,200);
+  shininess(20);
   rotate(time*0.3f);
-  translate(490.f, 0.f,300.f);
+  translate(490.f, 0.f,0.f);
   pushMatrix();
-    lightSpecular(200,200,200);
-    shininess(20);
     scale(15.f, 15.f);
     fill(0,0,255);
     drawSphere(10);
@@ -216,7 +215,7 @@ void draw()
     scale(3.f, 3.f);
     fill(240,240,240);
     drawSphere(10);
-    spotLight(255,0,0,0,0,0,0,0,-1,40,5);
+    spotLight(255,255,255,0,0,15,-1,0,0,120,10);
   popMatrix();
   popMatrix();
   //ksiezyc2
