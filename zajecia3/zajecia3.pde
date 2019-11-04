@@ -36,7 +36,7 @@ float time = 0.f;
 void draw()
 {
   rotateY(PI/8);
-  ambientLight(10,10,10);
+  ambientLight(20,20,20);
   pointLight(255,255,255,width *.5f, height *.5f,0);
   lightSpecular(200,200,0);
   background(0);
@@ -101,17 +101,20 @@ void draw()
   popMatrix();
   //endziemia
   
-  
+
   //mars
   pushMatrix();
   rotate(time*0.7f);
-  pointLight(255,40,40,0,0,0);
   translate(300.f, 0.f);
+  float lx = modelX(0,0,0);
+  float ly = modelY(0,0,0);
+  float lz = modelZ(0,0,0);
   pushMatrix();
     scale(6.f, 6.f);
     fill(255,0,0);
     drawSphere(10);
   popMatrix();
+  pointLight(255,40,40,lx,ly,lz);
   popMatrix();
   
   
@@ -199,7 +202,7 @@ void draw()
   rotate(time*0.3f);
   translate(490.f, 0.f,300.f);
   pushMatrix();
-    lightSpecular(255,255,255);
+    lightSpecular(200,200,200);
     shininess(20);
     scale(15.f, 15.f);
     fill(0,0,255);
