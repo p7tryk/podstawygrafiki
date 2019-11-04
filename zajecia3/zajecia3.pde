@@ -106,9 +106,9 @@ void draw()
   pushMatrix();
   rotate(time*0.7f);
   translate(300.f, 0.f);
-  float lx = modelX(0,0,0);
-  float ly = modelY(0,0,0);
-  float lz = modelZ(0,0,0);
+  float lx = modelX(300,0,0);
+  float ly = modelY(300,0,0);
+  float lz = modelZ(300,0,0);
   pushMatrix();
     scale(6.f, 6.f);
     fill(255,0,0);
