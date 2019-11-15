@@ -15,6 +15,7 @@ void directional()
 }
 
 int time = 3;
+float time_t = 0;
 
 void draw() 
 {
@@ -35,7 +36,7 @@ void draw()
  }
  
  background(0);
- rotateY(PI/24);
+ rotateY(PI/24*time_t);
  translate(width/2, height/2, -20);
  int dim = 18;
  for (int i = -height/2; i < height/2; i += dim*1.4) 
@@ -48,4 +49,5 @@ void draw()
    popMatrix();
   }
  }
+ time += 0.1f;
 }

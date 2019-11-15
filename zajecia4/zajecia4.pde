@@ -1,5 +1,5 @@
 final int groundYPos = 420;
-
+int norm = 0;
 int groundXPos = 0;
 int direction = 0;
 float yPos = groundYPos;
@@ -36,13 +36,22 @@ void draw() {
   ellipse(320, int(yPos) - 25, 50, 50);
   ellipse(320, int(yPos) - 65, 30, 30);
   fill(#EB8921);
-  triangle(
-    320-15*direction, int(yPos) - 68,
-    320-30*direction, int(yPos) - 65,
-  320-15*direction, int(yPos) - 62)
-  ;
+  if(direction > 1)
+    norm = 1;
+  else if(direction < -1)
+    norm = -1;
+  else
+    norm = direction;
   if (direction == 0)
     ellipse(320, int(yPos) - 65, 6, 6);
+    else
+    {
+  triangle(
+    320-15*norm, int(yPos) - 68,
+    320-30*norm, int(yPos) - 65,
+  320-15*norm, int(yPos) - 62)
+  ;
+    }
 }
 int previous = 0;
 void mousePressed()
