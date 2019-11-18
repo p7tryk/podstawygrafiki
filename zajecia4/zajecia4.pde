@@ -1,4 +1,4 @@
-final int groundYPos = 420;
+final int groundYPos = 780;
 int norm = 0;
 int groundXPos = 0;
 int direction = 0;
@@ -6,8 +6,10 @@ float yPos = groundYPos;
 float yVelocity = 0;
 float xVelocity = 0;
 
+float wallposition = 100;
+
 void setup() {
-  size(800, 600, P3D);
+  size(640, 800, P3D);
   previous=mouseX;
 }
 
@@ -18,7 +20,12 @@ void draw() {
   if (yPos > groundYPos)
   {
     yPos = groundYPos;
-    yVelocity = 0.f;
+    //yVelocity = 0.f;
+    yVelocity = -(yVelocity/2);
+  }
+  if (yPos < 80)
+  {
+     yVelocity = -(yVelocity/2); 
   }
 // animacja podłoża
   groundXPos += direction * 3;
@@ -58,27 +65,27 @@ void mousePressed()
 {
 
   if(mouseButton == RIGHT)
-    yVelocity=-12.f;
+  {
+    if(yPos>95)
+      yVelocity=-12.f;
+  }
    else
    {
      previous=mouseX;
-     direction = 0; 
+     //direction = 0; 
    }
 }
 void mouseDragged()
 {
+  if(mouseButton==RIGHT)
+    return;
   direction = (previous-mouseX)/50;
   if(direction>10)
     direction=10;
   if(direction<-10)
     direction=-10;
 }
-/*
-void mouseReleased()
-{
-   previous=mouseX;
-   direction = 0;
-}*/
+
 
 
 void keyPressed() {
