@@ -37,13 +37,7 @@ void drawShip()
   fill(255,255,255);
   box(1000);
 }
-class camera{
-  public
-  float x,y,z=0;
-  float vecX,vecY,vecZ = 0;
-  
-  
-};
+
 
 //previous mouse for scrolling
 int previousX=0;
@@ -56,9 +50,8 @@ float timeStep = 0;
 float cameraX,cameraY,cameraZ = 0;
 float camVelX,camVelY, camVelZ = 0;
 //camera vector
-float vecForwardx = 0;
-float vecForwardy = 0;
-float vecForwardz = 0;
+PVector vecForward = new PVector(0,0,0);
+
 //camera rotation stat and rotation velocity
 float camRotX, camRotY, camRotZ = 0;
 float camRotVelX, camRotVelY, camRotVelZ =0;
@@ -66,35 +59,48 @@ float camRotVelX, camRotVelY, camRotVelZ =0;
 //settings
 float mouseSpeed = 20;
 
-
+PVector up = new PVector(0,0,1);
 
 void draw()
 {
  ambientLight(20,20,20);
  //CAMERA
    
-  cameraX+=(camVelX*vecForwardx)+(camVelY*vecForwardx)+(camVelZ*vecForwardx);
-  cameraY+=(camVelX*vecForwardy)+(camVelY*vecForwardy)+(camVelZ*vecForwardy);
-  cameraZ+=(camVelX*vecForwardz)+(camVelY*vecForwardz)+(camVelZ*vecForwardz);
+  cameraX+=(camVelX*vecForward.x);
+  cameraY+=(camVelX*vecForward.y);
+  cameraZ+=(camVelX*vecForward.z);
+  PVector vec = new PVector(vecForward.z,vecForward.x,vecForward.y);
+  vec.cross(up);
+  cameraX+=(camVelY*vec.x);
+  cameraY+=(camVelY*vec.y);
+  cameraZ+=(camVelY*vec.z);
+  PVector vec2 = new PVector(vec.z,vec.x,vec.y);
+  vec2.cross(vec);
+  cameraX+=(camVelZ*vec2.y);
+  cameraY+=(camVelZ*vec2.z);
+  cameraZ+=-(camVelZ*vec2.x);
   
-  println(vecForwardx + " " + vecForwardy + " " + vecForwardz);
+  println(vecForward.x + " " + vecForward.y + " " + vecForward.z);
+  println(vec.x + " " + vec.y + " " + vec.z);
+  println(vec2.x + " " + vec2.y + " " + vec2.z);
+
   
   camRotX+=camRotVelX;
   camRotY+=camRotVelY;
   camRotZ+=camRotVelZ;
   
-  vecForwardx = cos(camRotX)*cos(camRotY);
-  vecForwardy = sin(camRotY); 
-  vecForwardz = sin(camRotX)*cos(camRotY);
+  vecForward.x = cos(camRotX)*cos(camRotY);
+  vecForward.y = sin(camRotY); 
+  vecForward.z = sin(camRotX)*cos(camRotY);
 
 
-  camera(cameraX, cameraY, cameraZ,cameraX+vecForwardx, cameraY+vecForwardy, cameraZ+vecForwardz, 0, 1, 0);
+  camera(cameraX, cameraY, cameraZ,cameraX+vecForward.x*10, cameraY+vecForward.y*10, cameraZ+vecForward.z*10, 0, 1, 0);
   
   //ENDCAMERA
  
   
   
-  rotateY(PI/2);
+  
  //INIT
   pointLight(255,255,255,0, 0,500);
   lightSpecular(200,200,0);
@@ -104,9 +110,11 @@ void draw()
   //statek
   pushMatrix();
   translate(cameraX,cameraY,cameraZ);
-  rotateY(vecForwardx);
-  rotateZ(vecForwardy);
-  rotateZ(vecForwardz);
+  /*
+  rotateY(vecForward.x);
+  rotateZ(vecForward.y);
+  rotateZ(vecForward.z);
+  */
   fill(255,0,255);
   scale(10,10,10);
   drawSphere(10);
@@ -114,6 +122,7 @@ void draw()
   
   
   //SOLAR SYSTEM
+  rotateY(PI/2);
   translate(0, 0, 500);
   pushMatrix();
   rotate(time);
@@ -320,19 +329,19 @@ void keyPressed()
   //MOVEMENT
   //forward
   if (key != CODED && keyCode == 'A')
-    camVelX= -10;
+    camVelZ= -10;
   else if (key != CODED && keyCode == 'D')
-    camVelX = 10; 
+    camVelZ = 10; 
   //sidetoside  
   if (key != CODED && keyCode == 'W')
-    camVelY = 10;
+    camVelX = 10;
   else if (key != CODED && keyCode == 'S')
-    camVelY = -10;
+    camVelX = -10;
     //updown
     if (key != CODED && keyCode == SHIFT)
-    camVelZ = 10;
+    camVelY = 10;
   else if (key != CODED && keyCode == CONTROL)
-    camVelZ = -10;
+    camVelY = -10;
     
     //CAMERA
     if (key == CODED && keyCode == LEFT)
@@ -350,17 +359,17 @@ void keyPressed()
 void keyReleased()
 {
   if (key != CODED && keyCode == 'A')
-    camVelX=0;
+    camVelZ=0;
   if (key != CODED && keyCode == 'D')
-    camVelX=0;
+    camVelZ=0;
   if (key != CODED && keyCode == 'W')
-    camVelY = 0;
+    camVelX = 0;
   if (key != CODED && keyCode == 'S')
-    camVelY = 0;
+    camVelX = 0;
    if (key != CODED && keyCode == SHIFT)
-    camVelZ = 0;
+    camVelY = 0;
 if (key != CODED && keyCode == CONTROL)
-    camVelZ = 0;
+    camVelY = 0;
     
 
   if (key == CODED && keyCode == LEFT)
