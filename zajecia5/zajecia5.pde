@@ -55,11 +55,11 @@ float timeStep = 0;
 //camera positions and velocity
 float cameraX,cameraY,cameraZ = 0;
 float camVelX,camVelY, camVelZ = 0;
-
+//camera vector
 float vecForwardx = 0;
 float vecForwardy = 0;
 float vecForwardz = 0;
-//camera rotation and rotation velocity
+//camera rotation stat and rotation velocity
 float camRotX, camRotY, camRotZ = 0;
 float camRotVelX, camRotVelY, camRotVelZ =0;
 
@@ -73,21 +73,22 @@ void draw()
  ambientLight(20,20,20);
  //CAMERA
    
-  cameraX+=camVelX;
-  cameraY+=camVelY;
-  cameraZ+=camVelZ;
-  println(cameraX + " " + cameraY + " " + cameraZ);
+  cameraX+=(camVelX*vecForwardx)+(camVelY*vecForwardx)+(camVelZ*vecForwardx);
+  cameraY+=(camVelX*vecForwardy)+(camVelY*vecForwardy)+(camVelZ*vecForwardy);
+  cameraZ+=(camVelX*vecForwardz)+(camVelY*vecForwardz)+(camVelZ*vecForwardz);
+  
+  println(vecForwardx + " " + vecForwardy + " " + vecForwardz);
   
   camRotX+=camRotVelX;
   camRotY+=camRotVelY;
   camRotZ+=camRotVelZ;
   
   vecForwardx = cos(camRotX)*cos(camRotY);
-  vecForwardy = sin(camRotY);
+  vecForwardy = sin(camRotY); 
   vecForwardz = sin(camRotX)*cos(camRotY);
 
 
-  camera(cameraX, cameraY, cameraZ, cameraX+vecForwardx, cameraY+vecForwardy, cameraZ+vecForwardz, 0, 1, 0);
+  camera(cameraX, cameraY, cameraZ,cameraX+vecForwardx, cameraY+vecForwardy, cameraZ+vecForwardz, 0, 1, 0);
   
   //ENDCAMERA
  
@@ -102,7 +103,10 @@ void draw()
   
   //statek
   pushMatrix();
-  translate(cameraX,cameraY,cameraZ+50);
+  translate(cameraX,cameraY,cameraZ);
+  rotateY(vecForwardx);
+  rotateZ(vecForwardy);
+  rotateZ(vecForwardz);
   fill(255,0,255);
   scale(10,10,10);
   drawSphere(10);
@@ -313,28 +317,62 @@ void draw()
 
 void keyPressed()
 {
-  if (key != CODED && keyCode == 'A' || key == CODED && keyCode == LEFT)
-    camRotVelX= -0.01;
-  else if (key != CODED && keyCode == 'D' || key == CODED && keyCode == RIGHT)
-    camRotVelX = 0.01;
+  //MOVEMENT
+  //forward
+  if (key != CODED && keyCode == 'A')
+    camVelX= -10;
+  else if (key != CODED && keyCode == 'D')
+    camVelX = 10; 
+  //sidetoside  
+  if (key != CODED && keyCode == 'W')
+    camVelY = 10;
+  else if (key != CODED && keyCode == 'S')
+    camVelY = -10;
+    //updown
+    if (key != CODED && keyCode == SHIFT)
+    camVelZ = 10;
+  else if (key != CODED && keyCode == CONTROL)
+    camVelZ = -10;
     
-  if (key != CODED && keyCode == 'W' || key == CODED && keyCode == UP)
-    camRotVelY = -0.01;
-  else if (key != CODED && keyCode == 'S' || key == CODED && keyCode == DOWN)
-    camRotVelY = 0.01;
+    //CAMERA
+    if (key == CODED && keyCode == LEFT)
+    camRotVelX= -0.02;
+  else if (key == CODED && keyCode == RIGHT)
+    camRotVelX = 0.02;
+    
+  if (key == CODED && keyCode == UP)
+    camRotVelY = -0.02;
+  else if (key == CODED && keyCode == DOWN)
+    camRotVelY = 0.02;
     
 }
 
 void keyReleased()
 {
-  if (key != CODED && keyCode == 'A' || key == CODED && keyCode == LEFT)
+  if (key != CODED && keyCode == 'A')
+    camVelX=0;
+  if (key != CODED && keyCode == 'D')
+    camVelX=0;
+  if (key != CODED && keyCode == 'W')
+    camVelY = 0;
+  if (key != CODED && keyCode == 'S')
+    camVelY = 0;
+   if (key != CODED && keyCode == SHIFT)
+    camVelZ = 0;
+if (key != CODED && keyCode == CONTROL)
+    camVelZ = 0;
+    
+
+  if (key == CODED && keyCode == LEFT)
     camRotVelX=0;
-  if (key != CODED && keyCode == 'D' || key == CODED && keyCode == RIGHT)
+  if (key == CODED && keyCode == RIGHT)
     camRotVelX=0;
-  if (key != CODED && keyCode == 'W' || key == CODED && keyCode == UP)
+  if (key == CODED && keyCode == UP)
     camRotVelY = 0;
-  if (key != CODED && keyCode == 'S' || key == CODED && keyCode == DOWN)
+  if (key == CODED && keyCode == DOWN)
     camRotVelY = 0;
+    
+    
   if(key!= CODED && keyCode == ' ')
       if(timeStep==0)
         timeStep=0.01f;
