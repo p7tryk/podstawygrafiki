@@ -37,7 +37,13 @@ void drawShip()
   fill(255,255,255);
   box(1000);
 }
-
+class camera{
+  public
+  float x,y,z=0;
+  float vecX,vecY,vecZ = 0;
+  
+  
+};
 
 //previous mouse for scrolling
 int previousX=0;
@@ -49,6 +55,10 @@ float timeStep = 0;
 //camera positions and velocity
 float cameraX,cameraY,cameraZ = 0;
 float camVelX,camVelY, camVelZ = 0;
+
+float vecForwardx = 0;
+float vecForwardy = 0;
+float vecForwardz = 0;
 //camera rotation and rotation velocity
 float camRotX, camRotY, camRotZ = 0;
 float camRotVelX, camRotVelY, camRotVelZ =0;
@@ -61,11 +71,6 @@ float mouseSpeed = 20;
 void draw()
 {
  ambientLight(20,20,20);
-//for clarity with camera
-float EYEX = width/2.0;
-float EYEY = height/2.0;
-float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
-   
  //CAMERA
    
   cameraX+=camVelX;
@@ -76,27 +81,41 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
   camRotX+=camRotVelX;
   camRotY+=camRotVelY;
   camRotZ+=camRotVelZ;
+  
+  vecForwardx = cos(camRotX)*cos(camRotY);
+  vecForwardy = sin(camRotY);
+  vecForwardz = sin(camRotX)*cos(camRotY);
 
-  camera(EYEX+cameraX+camRotX, EYEY+cameraY+camRotY, EYEZ+cameraZ+camRotZ, EYEX+cameraX, EYEY+cameraY, 0+cameraZ, 0, 1, 0);
+
+  camera(cameraX, cameraY, cameraZ, cameraX+vecForwardx, cameraY+vecForwardy, cameraZ+vecForwardz, 0, 1, 0);
   
   //ENDCAMERA
+ 
+  
+  
+  rotateY(PI/2);
+ //INIT
+  pointLight(255,255,255,0, 0,500);
+  lightSpecular(200,200,0);
+  background(0);
+  
+  
+  //statek
   pushMatrix();
-  drawShip();
+  translate(cameraX,cameraY,cameraZ+50);
+  fill(255,0,255);
+  scale(10,10,10);
+  drawSphere(10);
   popMatrix();
   
   
   //SOLAR SYSTEM
-  rotateY(PI/8);
- 
-  pointLight(255,255,255,width *.5f, height *.5f,0);
-  lightSpecular(200,200,0);
-  background(0);
-  translate(width *.5f, height *.5f);
+  translate(0, 0, 500);
   pushMatrix();
   rotate(time);
   rotateX(time*2);
   //slonce
-  translate(0.f, 0.f);
+  translate(0.f, 0.f, 0.f);
   pushMatrix();
     scale(40.f, 40.f,40.f);
     fill(255,255,0);
@@ -161,7 +180,7 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
   float ly = modelY(0,0,0);
   float lz = modelZ(0,0,0);
   pushMatrix();
-    scale(6.f, 6.f);
+    scale(6.f, 6.f,6.f);
     fill(255,0,0);
     drawSphere(10);
   popMatrix();
@@ -209,13 +228,13 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
   //pierscienie
   pushMatrix();
     rotateY(PI*time);
-    scale(40.f, 40.f);
+    scale(40.f, 40.f,40.f);
     fill(255,255,0);
     drawCircle(10);
   popMatrix();
   pushMatrix();
   rotateY(PI*time);
-    scale(30.f, 30.f);
+    scale(30.f, 30.f,30.f);
     fill(0,0,0);
     drawCircle(10);
   popMatrix();
@@ -230,7 +249,7 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
   rotateY(time*3);
   translate(25.f, 0.f, 50.f);
   pushMatrix();
-    scale(3.f, 3.f);
+    scale(3.f, 3.f,3.f);
     fill(240,240,240);
     drawSphere(10);
   popMatrix();
@@ -239,7 +258,7 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
   rotate(time*2);
   translate(30.f, 0.f);
   pushMatrix();
-    scale(3.f, 3.f);
+    scale(3.f, 3.f,3.f);
     fill(240,240,240);
     drawSphere(10);
   popMatrix();
@@ -254,7 +273,7 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
   rotate(time*0.3f);
   translate(490.f, 0.f,0.f);
   pushMatrix();
-    scale(15.f, 15.f);
+    scale(15.f, 15.f,15.f);
     fill(0,0,255);
     drawSphere(10);
   popMatrix();
@@ -263,7 +282,7 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
   rotateY(time*3);
   translate(10.f, 0.f, 25.f);
   pushMatrix();
-    scale(3.f, 3.f);
+    scale(3.f, 3.f,3.f);
     fill(240,240,240);
     drawSphere(10);
     spotLight(255,255,255,0,0,15,-1,0,0,120,10);
@@ -295,14 +314,14 @@ float EYEZ = ((height/2.0) / tan(PI*30.0 / 180.0));
 void keyPressed()
 {
   if (key != CODED && keyCode == 'A' || key == CODED && keyCode == LEFT)
-    camRotVelX= -6;
+    camRotVelX= -0.01;
   else if (key != CODED && keyCode == 'D' || key == CODED && keyCode == RIGHT)
-    camRotVelX = 6;
+    camRotVelX = 0.01;
     
   if (key != CODED && keyCode == 'W' || key == CODED && keyCode == UP)
-    camVelY=-6;
+    camRotVelY = -0.01;
   else if (key != CODED && keyCode == 'S' || key == CODED && keyCode == DOWN)
-    camVelY =6;
+    camRotVelY = 0.01;
     
 }
 
@@ -313,9 +332,14 @@ void keyReleased()
   if (key != CODED && keyCode == 'D' || key == CODED && keyCode == RIGHT)
     camRotVelX=0;
   if (key != CODED && keyCode == 'W' || key == CODED && keyCode == UP)
-    camVelY=0;
+    camRotVelY = 0;
   if (key != CODED && keyCode == 'S' || key == CODED && keyCode == DOWN)
-    camVelY=0;
+    camRotVelY = 0;
+  if(key!= CODED && keyCode == ' ')
+      if(timeStep==0)
+        timeStep=0.01f;
+      else
+        timeStep=0.f;
 }
 
 void mousePressed()
