@@ -1,10 +1,13 @@
 PShape s;
-
+PImage img;
+PShape spaceship;
 void setup() 
 {
   size(1200, 800, P3D);
   noStroke();
   s = loadShape("capsule.obj");
+  img = loadImage("test.png");
+  spaceship = loadShape("SpaceShip.obj");
 }
 void drawCapsule()
 {
@@ -33,9 +36,13 @@ void drawBox(int x, int y, int z)
 
 void drawShip()
 {
-  translate(cameraX+width/2,cameraY+height/2,cameraZ+50);
-  fill(255,255,255);
-  box(1000);
+  box(100,100,100);
+  pushMatrix();
+  translate(0,50,0);
+  drawSphere(10);
+  popMatrix();
+  translate(0,-50,0);
+  drawSphere(10);
 }
 
 
@@ -59,10 +66,13 @@ float camRotVelX, camRotVelY, camRotVelZ =0;
 //settings
 float mouseSpeed = 20;
 
-PVector up = new PVector(0,0,1);
+PVector up = new PVector(0,1,0);
+
+float planets[] = {1.9,0};
 
 void draw()
 {
+  pushMatrix();
  ambientLight(20,20,20);
  //CAMERA
    
@@ -78,7 +88,7 @@ void draw()
   vec2.cross(vec);
   cameraX+=(camVelZ*vec2.y);
   cameraY+=(camVelZ*vec2.z);
-  cameraZ+=-(camVelZ*vec2.x);
+  cameraZ+=(camVelZ*vec2.x);
   
   println(vecForward.x + " " + vecForward.y + " " + vecForward.z);
   println(vec.x + " " + vec.y + " " + vec.z);
@@ -107,18 +117,7 @@ void draw()
   background(0);
   
   
-  //statek
-  pushMatrix();
-  translate(cameraX,cameraY,cameraZ);
-  /*
-  rotateY(vecForward.x);
-  rotateZ(vecForward.y);
-  rotateZ(vecForward.z);
-  */
-  fill(255,0,255);
-  scale(10,10,10);
-  drawSphere(10);
-  popMatrix();
+
   
   
   //SOLAR SYSTEM
@@ -166,7 +165,7 @@ void draw()
   
   //ziemia
   pushMatrix();
-  rotateX(time);
+  rotateX(time*planets[0]);
   translate(20.f, 200.f);
   pushMatrix();
     scale(10.f, 10.f,10.f);
@@ -316,10 +315,25 @@ void draw()
   time += timeStep;
   //END SOLAR SYSTEM
   
-
-
+//2d rendering
+  popMatrix();
+  camera();
+  fill(255,255,255);
+  beginShape(QUADS);
+    vertex(width/2-40,height+0);
+    vertex(width/2-40,height-40);
+    vertex(width/2+40,height-40);
+    vertex(width/2+40,height+0);
+  endShape();
+  translate(width/2,height,50);
+  stroke(50);
+  drawShip();
+  scale(50,50,50);
+  translate(0,0,0);
+  shape(spaceship,0,0);
+  line(0,0,width/2,height/2);
   
-
+  println(planets[0]);
 }
 
 
@@ -329,19 +343,19 @@ void keyPressed()
   //MOVEMENT
   //forward
   if (key != CODED && keyCode == 'A')
-    camVelZ= -10;
+    camVelY= -10;
   else if (key != CODED && keyCode == 'D')
-    camVelZ = 10; 
+    camVelY = 10; 
   //sidetoside  
   if (key != CODED && keyCode == 'W')
     camVelX = 10;
   else if (key != CODED && keyCode == 'S')
     camVelX = -10;
     //updown
-    if (key != CODED && keyCode == SHIFT)
-    camVelY = 10;
+  if (key != CODED && keyCode == SHIFT)
+    camVelZ = 10;
   else if (key != CODED && keyCode == CONTROL)
-    camVelY = -10;
+    camVelZ = -10;
     
     //CAMERA
     if (key == CODED && keyCode == LEFT)
@@ -354,22 +368,24 @@ void keyPressed()
   else if (key == CODED && keyCode == DOWN)
     camRotVelY = 0.02;
     
+
+    
 }
 
 void keyReleased()
 {
   if (key != CODED && keyCode == 'A')
-    camVelZ=0;
+    camVelY=0;
   if (key != CODED && keyCode == 'D')
-    camVelZ=0;
+    camVelY=0;
   if (key != CODED && keyCode == 'W')
     camVelX = 0;
   if (key != CODED && keyCode == 'S')
     camVelX = 0;
    if (key != CODED && keyCode == SHIFT)
-    camVelY = 0;
+    camVelZ = 0;
 if (key != CODED && keyCode == CONTROL)
-    camVelY = 0;
+    camVelZ = 0;
     
 
   if (key == CODED && keyCode == LEFT)
@@ -387,6 +403,11 @@ if (key != CODED && keyCode == CONTROL)
         timeStep=0.01f;
       else
         timeStep=0.f;
+        
+  if (key == CODED && keyCode == 'R')
+    planets[0] = 0;
+  if (key == CODED && keyCode == 'T')
+    planets[0] = 50;
 }
 
 void mousePressed()
