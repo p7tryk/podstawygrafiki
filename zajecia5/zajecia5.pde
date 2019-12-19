@@ -36,13 +36,10 @@ void drawBox(int x, int y, int z)
 
 void drawShip()
 {
-  box(100,100,100);
-  pushMatrix();
-  translate(0,50,0);
-  drawSphere(10);
-  popMatrix();
+  //box(100,100,100);
+  
   translate(0,-50,0);
-  drawSphere(10);
+  //drawSphere(10);
 }
 
 
@@ -319,17 +316,18 @@ void draw()
   popMatrix();
   camera();
   fill(255,255,255);
+  /*
   beginShape(QUADS);
     vertex(width/2-40,height+0);
     vertex(width/2-40,height-40);
     vertex(width/2+40,height-40);
     vertex(width/2+40,height+0);
   endShape();
-  translate(width/2,height,50);
-  stroke(50);
+  */
+  translate(width/2,height,-50);
   drawShip();
   scale(50,50,50);
-  translate(0,0,0);
+  translate(0,-2,0);
   shape(spaceship,0,0);
   line(0,0,width/2,height/2);
   
@@ -399,13 +397,12 @@ if (key != CODED && keyCode == CONTROL)
     
     
   if(key!= CODED && keyCode == ' ')
-      if(timeStep==0)
-        timeStep=0.01f;
-      else
-        timeStep=0.f;
+      timeStep+=0.01f;
+      if(timeStep>0.03)
+        timeStep=0.00f;
         
   if (key == CODED && keyCode == 'R')
-    planets[0] = 0;
+    planets[0] += 1;
   if (key == CODED && keyCode == 'T')
     planets[0] = 50;
 }
