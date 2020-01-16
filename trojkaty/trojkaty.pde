@@ -28,7 +28,7 @@ void draw()
 {
  noStroke();
  fill(255,255,255);
- background(0,255,0);
+ background(0,0,0);
  beginShape();
    vertex(width/2,height/2-2*size_full/3);
    vertex(width/2+size_full/2,height/2+size_full/3);
